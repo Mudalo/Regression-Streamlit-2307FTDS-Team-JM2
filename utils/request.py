@@ -25,7 +25,7 @@ import numpy as np
 # Load data from file to send as an API POST request.
 # We prepare a DataFrame with the public test set + riders data
 # from the Kaggle challenge.
-test = pd.read_csv('./data/df_test.csv')
+test = pd.read_csv('./data/df_test.csv', index_col=0)
 
 
 # Convert our DataFrame to a JSON string.
@@ -46,10 +46,10 @@ print(f"Querying API with the following data: \n {test.iloc[1].to_list()}")
 print("")
 # Here `api_response` represents the response we get from our API
 api_response = requests.post(url, json=feature_vector_json)
-
+print(api_response.json())
 # Display the prediction result
 print("Received POST response:")
 print("*"*50)
-print(f"API prediction result: {api_response.json()[0]}")
+print(f"API prediction result: {api_response.json()}")
 print(f"The response took: {api_response.elapsed.total_seconds()} seconds")
 print("*"*50)

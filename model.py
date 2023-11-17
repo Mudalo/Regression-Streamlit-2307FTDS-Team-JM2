@@ -58,9 +58,13 @@ def _preprocess_data(data):
     # ---------------------------------------------------------------
 
     # ----------- Replace this code with your own preprocessing steps --------
-    predict_vector = feature_vector_df[['Madrid_wind_speed','Bilbao_rain_1h','Valencia_wind_speed']]
-    # ------------------------------------------------------------------------
+    #predict_vector = feature_vector_df[['Madrid_wind_speed','Bilbao_rain_1h','Valencia_wind_speed']]
 
+    #df = pd.read_csv('df_test.csv', index_col=0)
+    df_clean = feature_vector_df.copy()
+    x_test = df_clean[df_clean.filter(regex='_temp_min$|_temp_max$|_rain_3h$|_snow_3h$|_speed$', axis=1).columns]
+    # ------------------------------------------------------------------------
+    predict_vector = x_test.copy()
     return predict_vector
 
 def load_model(path_to_model:str):

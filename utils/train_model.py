@@ -13,19 +13,21 @@
 import pandas as pd
 import pickle
 from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import Ridge
 
 # Fetch training data and preprocess for modeling
 train = pd.read_csv('./data/df_train.csv')
 
 y_train = train[['load_shortfall_3h']]
-X_train = train[['Madrid_wind_speed','Bilbao_rain_1h','Valencia_wind_speed']]
-
+#X_train = train[['Madrid_wind_speed','Bilbao_rain_1h','Valencia_wind_speed']]
+X_train = train[df_clean.filter(regex='_temp_min$|_temp_max$|_rain_3h$|_snow_3h$|_speed$',axis=1).columns]
 # Fit model
-lm_regression = LinearRegression(normalize=True)
+#lm_regression = LinearRegression(normalize=True)
+lm_regression = Ridge(normalize=True)
 print ("Training Model...")
 lm_regression.fit(X_train, y_train)
 
 # Pickle model for use within our API
-save_path = '../assets/trained-models/load_shortfall_simple_lm_regression.pkl'
+save_path = '../assets/trained-models/load_shortfall_simple_lm_regression2.pkl'
 print (f"Training completed. Saving model to: {save_path}")
 pickle.dump(lm_regression, open(save_path,'wb'))
